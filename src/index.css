@@ -1,96 +1,73 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Import tactical fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
 
+/* Sovereign Dark Theme System */
 @layer base {
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
-
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-
     --primary: 222.2 47.4% 11.2%;
     --primary-foreground: 210 40% 98%;
-
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
-
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
-
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
-
     --radius: 0.5rem;
-
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sovereign Dark - True Black System */
+    --background: 0 0% 0%;
+    --foreground: 0 0% 78.8%;
+    --card: 0 0% 5.9%;
+    --card-foreground: 0 0% 78.8%;
+    --popover: 0 0% 5.9%;
+    --popover-foreground: 0 0% 78.8%;
+    --primary: 195 100% 50%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 10.2%;
+    --secondary-foreground: 0 0% 78.8%;
+    --muted: 0 0% 10.2%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 0 0% 10.2%;
+    --accent-foreground: 0 0% 78.8%;
+    --destructive: 340 100% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 10.2%;
+    --input: 0 0% 10.2%;
+    --ring: 195 100% 75.7%;
+    --sidebar-background: 0 0% 5.9%;
+    --sidebar-foreground: 0 0% 78.8%;
+    --sidebar-primary: 195 100% 50%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 0 0% 10.2%;
+    --sidebar-accent-foreground: 0 0% 78.8%;
+    --sidebar-border: 0 0% 10.2%;
+    --sidebar-ring: 195 100% 59.8%;
   }
 }
 
@@ -101,5 +78,73 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
   }
+
+  /* Tactical Font Classes */
+  .font-tactical-heading {
+    font-family: 'Orbitron', monospace;
+  }
+
+  .font-tactical-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Neural Glow Effects */
+  .neural-glow {
+    box-shadow: 0 0 20px rgba(0, 224, 255, 0.3);
+  }
+
+  .neural-glow-green {
+    box-shadow: 0 0 15px rgba(0, 255, 144, 0.4);
+  }
+
+  /* Ambient Background Gradients */
+  .bg-gradient-radial {
+    background: radial-gradient(circle, var(--tw-gradient-stops));
+  }
+
+  /* Terminal Cursor Animation */
+  .terminal-cursor {
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  /* Tactical UI Animations */
+  .tactical-pulse {
+    animation: tactical-pulse 2s infinite;
+  }
+
+  @keyframes tactical-pulse {
+    0%, 100% {
+      opacity: 0.5;
+      box-shadow: 0 0 5px rgba(0, 224, 255, 0.3);
+    }
+    50% {
+      opacity: 1;
+      box-shadow: 0 0 20px rgba(0, 224, 255, 0.6);
+    }
+  }
+}
+
+/* Scrollbar Styling for Tactical Theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f0f0f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1a1a1a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00e0ff;
 }

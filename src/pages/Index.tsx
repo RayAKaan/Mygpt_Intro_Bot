@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { PromptInput } from '@/components/PromptInput';
 import { OutputBox } from '@/components/OutputBox';
@@ -7,7 +6,7 @@ import { HistoryPanel } from '@/components/HistoryPanel';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Sidebar, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { useToast } from '@/hooks/use-toast';
-import { Settings, History, Brain, Zap } from 'lucide-react';
+import { Settings, History, Zap, Activity, Cpu, Gauge } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface ModelConfig {
@@ -44,6 +43,14 @@ const Index = () => {
   });
 
   const { toast } = useToast();
+
+  // Boot sequence animation
+  const [isBooting, setIsBooting] = useState(true);
+
+  useEffect(() => {
+    const bootTimer = setTimeout(() => setIsBooting(false), 2000);
+    return () => clearTimeout(bootTimer);
+  }, []);
 
   // Load history from localStorage
   useEffect(() => {
@@ -158,42 +165,113 @@ const Index = () => {
     });
   };
 
+  if (isBooting) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center"
+        >
+          <motion.div
+            className="w-20 h-20 border-2 border-blue-500 rounded-full mx-auto mb-8"
+            animate={{
+              rotate: 360,
+              borderColor: ['#3b82f6', '#00e0ff', '#00ff90', '#3b82f6']
+            }}
+            transition={{
+              rotate: { duration: 2, repeat: Infinity, ease: "linear" },
+              borderColor: { duration: 3, repeat: Infinity }
+            }}
+          />
+          <motion.h1
+            className="text-2xl font-bold text-[#c0e5ff] font-mono tracking-wider"
+            animate={{ opacity: [0, 1, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+          >
+            INITIALIZING TACTICAL INTERFACE
+          </motion.h1>
+          <motion.div
+            className="mt-4 text-[#c9c9c9] text-sm font-mono"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+          >
+            [ NEURAL PATHWAYS ONLINE ]
+          </motion.div>
+        </motion.div>
+      </div>
+    );
+  }
+
   return (
     <SidebarProvider>
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
-        {/* Header */}
-        <header className="border-b border-slate-700 bg-slate-900/50 backdrop-blur-sm">
-          <div className="flex items-center justify-between p-4">
+      <div className="min-h-screen bg-black text-[#c9c9c9] relative overflow-hidden">
+        {/* Ambient background glow */}
+        <div className="fixed inset-0 bg-gradient-radial from-blue-500/5 via-transparent to-transparent pointer-events-none" />
+        
+        {/* Header - Tactical Command */}
+        <header className="border-b border-[#1a1a1a] bg-black/80 backdrop-blur-md relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/10 to-transparent opacity-30" />
+          <div className="flex items-center justify-between p-4 relative z-10">
             <div className="flex items-center space-x-4">
-              <SidebarTrigger className="lg:hidden" />
+              <SidebarTrigger className="lg:hidden text-[#c0e5ff]" />
               <motion.div 
-                className="flex items-center space-x-2"
+                className="flex items-center space-x-3"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.8 }}
               >
-                <Brain className="h-8 w-8 text-blue-400" />
+                <div className="relative">
+                  <Zap className="h-8 w-8 text-[#00e0ff]" />
+                  <motion.div
+                    className="absolute inset-0 h-8 w-8 text-[#00e0ff]"
+                    animate={{ 
+                      scale: [1, 1.2, 1],
+                      opacity: [0.5, 0.8, 0.5]
+                    }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    <Zap className="h-8 w-8" />
+                  </motion.div>
+                </div>
                 <div>
-                  <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                    MiniGPT-MLOps
+                  <h1 className="text-xl font-bold text-[#c0e5ff] font-mono tracking-wider">
+                    MINIGPT-TACTICAL
                   </h1>
-                  <p className="text-xs text-slate-400">Transformer Text Generation</p>
+                  <p className="text-xs text-[#00ff90] font-mono">
+                    [ NEURAL LINGUISTIC WARFARE v2.1 ]
+                  </p>
                 </div>
               </motion.div>
             </div>
             
+            {/* Tactical Controls */}
             <div className="flex items-center space-x-2">
+              <motion.div
+                className="flex items-center space-x-3 text-xs text-[#00e0ff] font-mono border border-[#1a1a1a] px-3 py-1 rounded bg-[#0f0f0f]/50"
+                animate={{ opacity: [0.7, 1, 0.7] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <Cpu className="h-3 w-3" />
+                <span>CORE ONLINE</span>
+                <Activity className="h-3 w-3" />
+                <span>212ms</span>
+                <Gauge className="h-3 w-3" />
+                <span>132 TK</span>
+              </motion.div>
+              
               <button
                 onClick={() => setShowHistory(!showHistory)}
-                className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors"
-                title="Toggle History"
+                className="p-2 rounded border border-[#1a1a1a] bg-[#0f0f0f] hover:bg-[#1a1a1a] transition-all duration-200 text-[#c0e5ff] hover:text-[#00e0ff] hover:shadow-lg hover:shadow-blue-500/20"
+                title="Command History"
               >
                 <History className="h-4 w-4" />
               </button>
               <button
                 onClick={() => setShowSettings(!showSettings)}
-                className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors"
-                title="Toggle Settings"
+                className="p-2 rounded border border-[#1a1a1a] bg-[#0f0f0f] hover:bg-[#1a1a1a] transition-all duration-200 text-[#c0e5ff] hover:text-[#00e0ff] hover:shadow-lg hover:shadow-blue-500/20"
+                title="Neural Parameters"
               >
                 <Settings className="h-4 w-4" />
               </button>
@@ -203,14 +281,14 @@ const Index = () => {
         </header>
 
         <div className="flex h-[calc(100vh-80px)]">
-          {/* History Sidebar */}
+          {/* History Panel */}
           {showHistory && (
             <motion.div
               initial={{ x: -300, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -300, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="w-80 border-r border-slate-700 bg-slate-900/50 backdrop-blur-sm"
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="w-80 border-r border-[#1a1a1a] bg-[#0f0f0f]/50 backdrop-blur-md"
             >
               <HistoryPanel
                 history={chatHistory}
@@ -220,14 +298,14 @@ const Index = () => {
             </motion.div>
           )}
 
-          {/* Main Content */}
-          <div className="flex-1 flex flex-col">
-            <div className="flex-1 p-6 space-y-6">
-              {/* Prompt Input */}
+          {/* Main Command Interface */}
+          <div className="flex-1 flex flex-col relative">
+            <div className="flex-1 p-6 space-y-6 relative z-10">
+              {/* Prompt Command Center */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
               >
                 <PromptInput
                   value={prompt}
@@ -237,12 +315,12 @@ const Index = () => {
                 />
               </motion.div>
 
-              {/* Output Box */}
+              {/* Neural Output Terminal */}
               {(currentResponse || isGenerating) && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.4 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
                 >
                   <OutputBox
                     content={currentResponse}
@@ -253,32 +331,54 @@ const Index = () => {
                 </motion.div>
               )}
 
-              {/* Welcome Message */}
+              {/* Standby Interface */}
               {!currentResponse && !isGenerating && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.6 }}
-                  className="text-center py-12"
+                  transition={{ duration: 0.6, delay: 0.6 }}
+                  className="text-center py-12 relative"
                 >
-                  <Zap className="h-16 w-16 mx-auto text-blue-400 mb-4" />
-                  <h2 className="text-2xl font-semibold mb-2">Welcome to MiniGPT-MLOps</h2>
-                  <p className="text-slate-400 max-w-md mx-auto">
-                    Your transformer-based text generation system. Enter a prompt above to start generating text with complete transparency and control.
+                  <motion.div
+                    className="relative inline-block mb-6"
+                    animate={{ 
+                      rotate: [0, 360],
+                      scale: [1, 1.05, 1]
+                    }}
+                    transition={{ 
+                      rotate: { duration: 20, repeat: Infinity, ease: "linear" },
+                      scale: { duration: 4, repeat: Infinity }
+                    }}
+                  >
+                    <Zap className="h-16 w-16 text-[#00e0ff]" />
+                    <motion.div
+                      className="absolute inset-0 h-16 w-16 text-[#00e0ff] opacity-50"
+                      animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0.2, 0.5] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      <Zap className="h-16 w-16" />
+                    </motion.div>
+                  </motion.div>
+                  <h2 className="text-2xl font-bold mb-2 text-[#c0e5ff] font-mono tracking-wider">
+                    NEURAL INTERFACE READY
+                  </h2>
+                  <p className="text-[#c9c9c9] max-w-md mx-auto font-mono text-sm">
+                    [ TACTICAL LANGUAGE MODEL ARMED & OPERATIONAL ]<br />
+                    Enter command parameters to initiate neural pathway activation.
                   </p>
                 </motion.div>
               )}
             </div>
           </div>
 
-          {/* Settings Sidebar */}
+          {/* Settings Command Panel */}
           {showSettings && (
             <motion.div
               initial={{ x: 300, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 300, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="w-80 border-l border-slate-700 bg-slate-900/50 backdrop-blur-sm"
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="w-80 border-l border-[#1a1a1a] bg-[#0f0f0f]/50 backdrop-blur-md"
             >
               <SettingsPanel
                 config={config}
