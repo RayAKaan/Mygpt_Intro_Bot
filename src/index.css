@@ -79,6 +79,18 @@
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', sans-serif;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+  }
+
+  /* Prevent zoom on iOS Safari */
+  input, textarea, select {
+    font-size: 16px;
+  }
+
+  @media (max-width: 768px) {
+    input, textarea, select {
+      font-size: 16px; /* Maintain 16px minimum to prevent zoom */
+    }
   }
 
   /* Tactical Font Classes */
@@ -129,6 +141,40 @@
       box-shadow: 0 0 20px rgba(0, 224, 255, 0.6);
     }
   }
+
+  /* Responsive typography */
+  @media (max-width: 640px) {
+    html {
+      font-size: 14px;
+    }
+  }
+
+  /* Safe area for mobile devices with notches */
+  @supports (padding: max(0px)) {
+    .safe-area-top {
+      padding-top: max(1rem, env(safe-area-inset-top));
+    }
+    
+    .safe-area-bottom {
+      padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    }
+    
+    .safe-area-left {
+      padding-left: max(1rem, env(safe-area-inset-left));
+    }
+    
+    .safe-area-right {
+      padding-right: max(1rem, env(safe-area-inset-right));
+    }
+  }
+
+  /* Improved touch targets for mobile */
+  @media (max-width: 768px) {
+    button, [role="button"] {
+      min-height: 44px;
+      min-width: 44px;
+    }
+  }
 }
 
 /* Scrollbar Styling for Tactical Theme */
@@ -147,4 +193,44 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #00e0ff;
+}
+
+/* Mobile-specific scrollbar */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+}
+
+/* Fix for mobile viewport height */
+@supports (-webkit-touch-callout: none) {
+  .min-h-screen {
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* Prevent text selection on buttons and interactive elements */
+button, [role="button"] {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Improve tap highlighting */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Ensure proper stacking context for overlays */
+.fixed {
+  z-index: 1000;
+}
+
+/* Prevent body scroll when modals are open on mobile */
+.modal-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
 }

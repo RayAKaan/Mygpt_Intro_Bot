@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Send, Loader2, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface PromptInputProps {
   value: string;
@@ -16,6 +17,7 @@ export const PromptInput = ({ value, onChange, onGenerate, isGenerating }: Promp
   const [charCount, setCharCount] = useState(0);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isFocused, setIsFocused] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     setCharCount(value.length);
@@ -26,10 +28,10 @@ export const PromptInput = ({ value, onChange, onGenerate, isGenerating }: Promp
   }, [value]);
 
   useEffect(() => {
-    if (textareaRef.current) {
+    if (textareaRef.current && !isMobile) {
       textareaRef.current.focus();
     }
-  }, []);
+  }, [isMobile]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
@@ -39,16 +41,16 @@ export const PromptInput = ({ value, onChange, onGenerate, isGenerating }: Promp
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3 sm:space-y-4">
       <div className="relative">
         {/* Command Label */}
         <motion.div
-          className="flex items-center space-x-2 mb-3"
+          className="flex items-center space-x-2 mb-2 sm:mb-3"
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
         >
-          <Zap className="h-4 w-4 text-[#00e0ff]" />
-          <span className="text-sm font-mono text-[#c0e5ff] tracking-wider">
+          <Zap className="h-3 w-3 sm:h-4 sm:w-4 text-[#00e0ff]" />
+          <span className="text-xs sm:text-sm font-mono text-[#c0e5ff] tracking-wider">
             NEURAL COMMAND INPUT
           </span>
         </motion.div>
@@ -87,14 +89,20 @@ export const PromptInput = ({ value, onChange, onGenerate, isGenerating }: Promp
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             placeholder="[ ENTER TACTICAL COMMAND PARAMETERS... ]"
-            className="min-h-[120px] max-h-[300px] resize-none bg-transparent border-0 text-[#c9c9c9] placeholder:text-[#666] focus:ring-0 focus:border-0 text-lg leading-relaxed font-mono p-4"
+            className={`resize-none bg-transparent border-0 text-[#c9c9c9] placeholder:text-[#666] focus:ring-0 focus:border-0 leading-relaxed font-mono ${
+              isMobile 
+                ? 'min-h-[100px] max-h-[200px] text-base p-3' 
+                : 'min-h-[120px] max-h-[300px] text-lg p-4'
+            }`}
             disabled={isGenerating}
           />
           
           {/* Neural activity indicator */}
           {value && (
             <motion.div
-              className="absolute bottom-3 left-3 flex items-center space-x-2"
+              className={`absolute flex items-center space-x-2 ${
+                isMobile ? 'bottom-2 left-2' : 'bottom-3 left-3'
+              }`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
@@ -106,12 +114,18 @@ export const PromptInput = ({ value, onChange, onGenerate, isGenerating }: Promp
                 }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               />
-              <span className="text-xs text-[#00ff90] font-mono">NEURAL ACTIVE</span>
+              <span className={`text-[#00ff90] font-mono ${isMobile ? 'text-xs' : 'text-xs'}`}>
+                NEURAL ACTIVE
+              </span>
             </motion.div>
           )}
           
           {/* Character Counter */}
-          <div className="absolute bottom-3 right-3 text-xs text-[#666] font-mono">
+          <div className={`absolute text-[#666] font-mono ${
+            isMobile 
+              ? 'bottom-2 right-2 text-xs' 
+              : 'bottom-3 right-3 text-xs'
+          }`}>
             [ {charCount} CHARS ]
           </div>
         </motion.div>
@@ -126,7 +140,11 @@ export const PromptInput = ({ value, onChange, onGenerate, isGenerating }: Promp
           <Button
             onClick={onGenerate}
             disabled={isGenerating || !value.trim()}
-            className="bg-gradient-to-r from-[#3b82f6] to-[#00e0ff] hover:from-[#2563eb] hover:to-[#0ea5e9] text-black px-8 py-3 text-lg font-bold font-mono tracking-wider shadow-lg hover:shadow-xl border-0 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden"
+            className={`bg-gradient-to-r from-[#3b82f6] to-[#00e0ff] hover:from-[#2563eb] hover:to-[#0ea5e9] text-black font-bold font-mono tracking-wider shadow-lg hover:shadow-xl border-0 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden ${
+              isMobile 
+                ? 'px-6 py-2 text-base' 
+                : 'px-8 py-3 text-lg'
+            }`}
           >
             {/* Button glow effect */}
             <motion.div
@@ -145,20 +163,29 @@ export const PromptInput = ({ value, onChange, onGenerate, isGenerating }: Promp
                     transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                     className="mr-2"
                   >
-                    <Loader2 className="h-5 w-5" />
+                    <Loader2 className={isMobile ? 'h-4 w-4' : 'h-5 w-5'} />
                   </motion.div>
-                  EXECUTING...
+                  {isMobile ? 'EXECUTING...' : 'EXECUTING...'}
                 </>
               ) : (
                 <>
-                  <Send className="h-5 w-5 mr-2" />
-                  EXECUTE NEURAL COMMAND
+                  <Send className={`${isMobile ? 'h-4 w-4' : 'h-5 w-5'} mr-2`} />
+                  {isMobile ? 'EXECUTE' : 'EXECUTE NEURAL COMMAND'}
                 </>
               )}
             </div>
           </Button>
         </motion.div>
       </div>
+
+      {/* Mobile keyboard shortcut hint */}
+      {!isMobile && (
+        <div className="text-center">
+          <span className="text-xs text-[#666] font-mono">
+            [ ⌘ + ENTER TO EXECUTE ]
+          </span>
+        </div>
+      )}
     </div>
   );
 };
