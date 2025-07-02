@@ -44,23 +44,23 @@ export const PromptInput = ({ value, onChange, onGenerate, isGenerating }: Promp
     <div className="space-y-6">
       <div className="relative">
         <div className="flex items-center space-x-3 mb-4">
-          <Terminal className="h-5 w-5 text-blue-400" />
+          <Terminal className="h-4 w-4 text-slate-400" />
           <label className="text-sm font-medium text-slate-300 font-mono">
-            NEURAL INPUT
+            INPUT
           </label>
           {isFocused && (
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              className="w-2 h-2 bg-cyan-400 rounded-full status-processing"
+              className="w-1.5 h-1.5 bg-slate-400 rounded-full subtle-pulse"
             />
           )}
         </div>
         
-        <div className={`relative glass-panel rounded-xl overflow-hidden transition-all duration-300 ${
+        <div className={`relative glass-panel rounded-lg overflow-hidden transition-all duration-200 ${
           isFocused 
-            ? 'neon-blue ring-1 ring-blue-400/30' 
-            : 'hover:border-slate-600/60'
+            ? 'accent-primary border-slate-600/50' 
+            : 'border-slate-700/40 hover:border-slate-600/50'
         }`}>
           <Textarea
             ref={textareaRef}
@@ -69,21 +69,21 @@ export const PromptInput = ({ value, onChange, onGenerate, isGenerating }: Promp
             onKeyDown={handleKeyDown}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
-            placeholder="Initialize neural interface..."
-            className={`resize-none bg-transparent border-0 text-slate-200 placeholder:text-slate-500 focus:ring-0 focus:border-0 leading-relaxed font-mono ${
+            placeholder="Enter your prompt..."
+            className={`resize-none bg-transparent border-0 text-slate-200 placeholder:text-slate-500 focus:ring-0 focus:border-0 leading-relaxed ${
               isMobile 
-                ? 'min-h-[120px] max-h-[200px] text-base p-4' 
-                : 'min-h-[140px] max-h-[300px] text-sm p-6'
+                ? 'min-h-[100px] max-h-[180px] text-base p-4' 
+                : 'min-h-[120px] max-h-[240px] text-sm p-5'
             }`}
             disabled={isGenerating}
           />
           
-          <div className="absolute bottom-4 right-4 flex items-center space-x-3">
+          <div className="absolute bottom-3 right-3 flex items-center space-x-3">
             <div className="text-xs text-slate-500 font-mono">
-              {charCount} chars
+              {charCount}
             </div>
-            {charCount > 500 && (
-              <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></div>
+            {charCount > 400 && (
+              <div className="w-1.5 h-1.5 bg-amber-400/70 rounded-full subtle-pulse"></div>
             )}
           </div>
         </div>
@@ -95,8 +95,8 @@ export const PromptInput = ({ value, onChange, onGenerate, isGenerating }: Promp
           {!isMobile && (
             <div className="flex items-center space-x-4">
               <span>⌘+Enter to execute</span>
-              <div className="w-px h-4 bg-slate-600"></div>
-              <span className="text-cyan-400">Ready for processing</span>
+              <div className="w-px h-3 bg-slate-600/50"></div>
+              <span className="text-slate-400">Ready</span>
             </div>
           )}
         </div>
@@ -104,13 +104,13 @@ export const PromptInput = ({ value, onChange, onGenerate, isGenerating }: Promp
         <Button
           onClick={onGenerate}
           disabled={isGenerating || !value.trim()}
-          className={`glass-button border border-blue-500/50 bg-gradient-to-r from-blue-600/80 to-cyan-600/80 hover:from-blue-500/80 hover:to-cyan-500/80 text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${
+          className={`btn-accent text-slate-200 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed font-mono ${
             isMobile 
               ? 'px-6 py-3 text-sm' 
               : 'px-8 py-3 text-sm'
-          } ${!isGenerating && value.trim() ? 'neon-blue' : ''}`}
+          } ${!isGenerating && value.trim() ? 'accent-primary' : ''}`}
         >
-          <div className="flex items-center font-mono">
+          <div className="flex items-center">
             {isGenerating ? (
               <>
                 <motion.div
@@ -120,7 +120,7 @@ export const PromptInput = ({ value, onChange, onGenerate, isGenerating }: Promp
                 >
                   <Loader2 className={isMobile ? 'h-4 w-4' : 'h-4 w-4'} />
                 </motion.div>
-                PROCESSING...
+                PROCESSING
               </>
             ) : (
               <>

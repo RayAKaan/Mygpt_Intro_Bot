@@ -87,27 +87,27 @@ export const OutputBox = ({ content, isGenerating, inferenceTime, tokensUsed }: 
   };
 
   return (
-    <Card className="glass-panel border-slate-700/50 overflow-hidden">
+    <Card className="glass-panel border-slate-700/40 overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 lg:p-6 border-b border-slate-700/30">
+      <div className="flex items-center justify-between p-4 lg:p-5 border-b border-slate-700/30">
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-3">
-            <Terminal className="h-5 w-5 text-cyan-400" />
-            <h3 className="font-semibold text-slate-200 font-mono">NEURAL OUTPUT</h3>
+            <Terminal className="h-4 w-4 text-slate-400" />
+            <h3 className="font-medium text-slate-300 font-mono">OUTPUT</h3>
           </div>
           
           {(inferenceTime || tokensUsed) && (
-            <div className="flex items-center space-x-4 text-sm text-slate-400">
+            <div className="flex items-center space-x-3 text-sm text-slate-400">
               {inferenceTime && (
                 <div className="flex items-center space-x-2 glass-button px-2 py-1 rounded font-mono">
-                  <Clock className="h-3 w-3 text-emerald-400" />
+                  <Clock className="h-3 w-3 text-slate-400" />
                   <span>{inferenceTime}ms</span>
                 </div>
               )}
               {tokensUsed && (
                 <div className="flex items-center space-x-2 glass-button px-2 py-1 rounded font-mono">
-                  <Zap className="h-3 w-3 text-blue-400" />
-                  <span>{tokensUsed} tokens</span>
+                  <Zap className="h-3 w-3 text-slate-400" />
+                  <span>{tokensUsed}</span>
                 </div>
               )}
             </div>
@@ -119,7 +119,7 @@ export const OutputBox = ({ content, isGenerating, inferenceTime, tokensUsed }: 
             variant="ghost"
             size="sm"
             onClick={handleCopy}
-            className="glass-button text-slate-400 hover:text-slate-200 p-2"
+            className="glass-button text-slate-400 hover:text-slate-300 p-2"
             disabled={isGenerating}
           >
             <Copy className="h-4 w-4" />
@@ -128,7 +128,7 @@ export const OutputBox = ({ content, isGenerating, inferenceTime, tokensUsed }: 
             variant="ghost"
             size="sm"
             onClick={handleDownload}
-            className="glass-button text-slate-400 hover:text-slate-200 p-2"
+            className="glass-button text-slate-400 hover:text-slate-300 p-2"
             disabled={isGenerating}
           >
             <Download className="h-4 w-4" />
@@ -137,7 +137,7 @@ export const OutputBox = ({ content, isGenerating, inferenceTime, tokensUsed }: 
             variant="ghost"
             size="sm"
             onClick={handleShare}
-            className="glass-button text-slate-400 hover:text-slate-200 p-2"
+            className="glass-button text-slate-400 hover:text-slate-300 p-2"
             disabled={isGenerating}
           >
             <Share className="h-4 w-4" />
@@ -146,24 +146,24 @@ export const OutputBox = ({ content, isGenerating, inferenceTime, tokensUsed }: 
       </div>
 
       {/* Content */}
-      <div className="p-4 lg:p-6">
+      <div className="p-4 lg:p-5">
         {isGenerating ? (
           <div className="flex items-center justify-center py-12">
             <div className="text-center space-y-4">
               <motion.div
-                className="w-8 h-8 border-2 border-blue-500/30 border-t-blue-500 rounded-full mx-auto"
+                className="w-6 h-6 border border-slate-500/40 border-t-slate-400 rounded-full mx-auto"
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
               />
               <div className="space-y-2">
-                <p className="text-slate-400 font-mono text-sm">Processing neural patterns...</p>
+                <p className="text-slate-400 font-mono text-sm">Processing...</p>
                 <div className="flex justify-center space-x-1">
                   {[0, 1, 2].map((i) => (
                     <motion.div
                       key={i}
-                      className="w-1 h-1 bg-cyan-400 rounded-full"
+                      className="w-1 h-1 bg-slate-400 rounded-full"
                       animate={{ opacity: [0.3, 1, 0.3] }}
-                      transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.2 }}
+                      transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.2 }}
                     />
                   ))}
                 </div>
@@ -171,14 +171,14 @@ export const OutputBox = ({ content, isGenerating, inferenceTime, tokensUsed }: 
             </div>
           </div>
         ) : (
-          <div className="glass-panel bg-slate-950/50 rounded-xl p-4 lg:p-6 border border-slate-800/50">
-            <div className="whitespace-pre-wrap text-slate-200 leading-relaxed text-sm lg:text-base font-mono">
+          <div className="surface-secondary rounded-lg p-4 lg:p-5 border border-slate-800/30">
+            <div className="whitespace-pre-wrap text-slate-300 leading-relaxed text-sm lg:text-base">
               {displayedContent}
               {isTyping && (
                 <motion.span
                   animate={{ opacity: [0.3, 1, 0.3] }}
                   transition={{ duration: 0.8, repeat: Infinity }}
-                  className="text-cyan-400 font-bold"
+                  className="text-slate-400 font-bold"
                 >
                   ▊
                 </motion.span>

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sun, Moon } from 'lucide-react';
@@ -36,12 +35,12 @@ export const ThemeToggle = () => {
       variant="ghost"
       size="sm"
       onClick={toggleTheme}
-      className="glass-button relative p-2.5 rounded-lg text-slate-400 hover:text-slate-200 transition-all duration-300"
+      className="glass-button relative p-2 rounded-lg text-slate-400 hover:text-slate-300 transition-all duration-200"
     >
       <motion.div
         initial={false}
         animate={{ rotate: isDark ? 0 : 180 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.2 }}
         className="relative"
       >
         {isDark ? (
@@ -50,13 +49,6 @@ export const ThemeToggle = () => {
           <Moon className="h-4 w-4" />
         )}
       </motion.div>
-      
-      {/* Subtle glow effect */}
-      <motion.div
-        className="absolute inset-0 rounded-lg bg-gradient-to-r from-blue-500/10 to-cyan-500/10"
-        animate={{ opacity: isDark ? 0.5 : 0.3 }}
-        transition={{ duration: 0.3 }}
-      />
     </Button>
   );
 };

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { PromptInput } from '@/components/PromptInput';
 import { OutputBox } from '@/components/OutputBox';
@@ -176,40 +175,36 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100 tech-grid">
       {/* Header */}
-      <header className="border-b border-slate-700/50 glass-panel sticky top-0 z-50">
+      <header className="border-b border-slate-700/30 glass-panel sticky top-0 z-50 safe-top">
         <div className="flex items-center justify-between px-4 lg:px-6 py-4">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-3">
               <div className="relative">
-                <Cpu className="h-7 w-7 text-blue-400" />
-                <div className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full status-online"></div>
+                <Cpu className="h-6 w-6 text-slate-300" />
+                <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-emerald-400/80 rounded-full status-active"></div>
               </div>
               <div>
-                <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                <h1 className="text-lg font-semibold text-slate-200">
                   Neural Interface
                 </h1>
-                <p className="text-xs text-slate-400 hidden sm:block font-mono">
-                  Advanced Language Processing System
+                <p className="text-xs text-slate-500 hidden sm:block font-mono">
+                  Advanced Processing System
                 </p>
               </div>
             </div>
           </div>
           
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2">
             {!isMobile && (
               <div className="flex items-center space-x-4 text-xs text-slate-400 glass-button px-3 py-2 rounded-lg font-mono">
                 <div className="flex items-center space-x-2">
-                  <Signal className="h-3 w-3 text-emerald-400" />
-                  <span>ONLINE</span>
+                  <Signal className="h-3 w-3 text-emerald-400/80" />
+                  <span>READY</span>
                 </div>
-                <div className="w-px h-4 bg-slate-600"></div>
+                <div className="w-px h-3 bg-slate-600/50"></div>
                 <div className="flex items-center space-x-2">
-                  <Activity className="h-3 w-3 text-blue-400" />
+                  <Activity className="h-3 w-3 text-slate-400" />
                   <span>142ms</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Zap className="h-3 w-3 text-cyan-400" />
-                  <span>GPU Ready</span>
                 </div>
               </div>
             )}
@@ -219,8 +214,8 @@ const Index = () => {
                 setShowHistory(!showHistory);
                 if (isMobile && !showHistory) setShowSettings(false);
               }}
-              className={`glass-button p-2.5 rounded-lg transition-all duration-200 ${
-                showHistory ? 'neon-blue text-blue-400' : 'text-slate-400 hover:text-slate-200'
+              className={`glass-button p-2 rounded-lg transition-all duration-200 ${
+                showHistory ? 'accent-primary text-slate-300 border-slate-500/50' : 'text-slate-400 hover:text-slate-300'
               }`}
             >
               <History className="h-4 w-4" />
@@ -231,8 +226,8 @@ const Index = () => {
                 setShowSettings(!showSettings);
                 if (isMobile && !showSettings) setShowHistory(false);
               }}
-              className={`glass-button p-2.5 rounded-lg transition-all duration-200 ${
-                showSettings ? 'neon-blue text-blue-400' : 'text-slate-400 hover:text-slate-200'
+              className={`glass-button p-2 rounded-lg transition-all duration-200 ${
+                showSettings ? 'accent-primary text-slate-300 border-slate-500/50' : 'text-slate-400 hover:text-slate-300'
               }`}
             >
               <Settings className="h-4 w-4" />
@@ -243,7 +238,7 @@ const Index = () => {
         </div>
       </header>
 
-      <div className="flex h-[calc(100vh-81px)]">
+      <div className="flex h-[calc(100vh-73px)]">
         {/* History Panel */}
         <AnimatePresence>
           {showHistory && (
@@ -251,11 +246,11 @@ const Index = () => {
               initial={{ x: isMobile ? -100 : -320, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: isMobile ? -100 : -320, opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
               className={`${
                 isMobile 
-                  ? 'fixed inset-0 z-40 modal-overlay' 
-                  : 'w-80 glass-panel border-r border-slate-700/50'
+                  ? 'fixed inset-0 z-40 modal-overlay safe-left safe-right' 
+                  : 'w-80 glass-panel border-r border-slate-700/30'
               }`}
             >
               <HistoryPanel
@@ -266,7 +261,7 @@ const Index = () => {
               {isMobile && (
                 <button
                   onClick={() => setShowHistory(false)}
-                  className="absolute top-4 right-4 glass-button p-2 rounded-lg text-slate-400 hover:text-slate-200"
+                  className="absolute top-4 right-4 glass-button p-2 rounded-lg text-slate-400 hover:text-slate-300"
                 >
                   ✕
                 </button>
@@ -277,13 +272,13 @@ const Index = () => {
 
         {/* Main Content */}
         <div className="flex-1 flex flex-col min-w-0">
-          <div className="flex-1 p-4 lg:p-8 space-y-8 overflow-auto">
+          <div className="flex-1 p-4 lg:p-8 space-y-8 overflow-auto safe-bottom">
             <div className="max-w-4xl mx-auto space-section">
               {/* Prompt Input */}
               <motion.div
-                initial={{ y: 20, opacity: 0 }}
+                initial={{ y: 12, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.4 }}
               >
                 <PromptInput
                   value={prompt}
@@ -296,9 +291,9 @@ const Index = () => {
               {/* Output */}
               {(currentResponse || isGenerating) && (
                 <motion.div
-                  initial={{ y: 20, opacity: 0 }}
+                  initial={{ y: 12, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
+                  transition={{ duration: 0.4, delay: 0.1 }}
                 >
                   <OutputBox
                     content={currentResponse}
@@ -312,39 +307,38 @@ const Index = () => {
               {/* Welcome State */}
               {!currentResponse && !isGenerating && (
                 <motion.div
-                  initial={{ y: 40, opacity: 0 }}
+                  initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  className="text-center py-16 space-y-6"
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="text-center py-20 space-y-8"
                 >
                   <div className="relative">
-                    <div className="w-20 h-20 mx-auto rounded-2xl glass-panel flex items-center justify-center mb-8 pulse-glow">
-                      <Cpu className="h-10 w-10 text-blue-400" />
+                    <div className="w-16 h-16 mx-auto rounded-xl glass-panel flex items-center justify-center mb-6">
+                      <Cpu className="h-8 w-8 text-slate-400" />
                     </div>
-                    <div className="absolute inset-0 w-20 h-20 mx-auto rounded-2xl shimmer"></div>
                   </div>
                   
                   <div className="space-y-4">
-                    <h2 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent">
-                      Neural Interface Ready
+                    <h2 className="text-2xl lg:text-3xl font-semibold text-slate-200">
+                      System Ready
                     </h2>
                     <p className="text-slate-400 max-w-md mx-auto text-sm lg:text-base leading-relaxed">
-                      Advanced language processing system initialized. Configure parameters and begin interaction.
+                      Advanced language processing system initialized and ready for interaction.
                     </p>
                   </div>
                   
                   <div className="flex flex-wrap justify-center gap-4 text-xs text-slate-500 font-mono">
                     <div className="flex items-center space-x-2 glass-button px-3 py-2 rounded-lg">
-                      <div className="w-2 h-2 bg-emerald-400 rounded-full status-online"></div>
-                      <span>System Ready</span>
+                      <div className="w-1.5 h-1.5 bg-emerald-400/80 rounded-full status-active"></div>
+                      <span>Online</span>
                     </div>
                     <div className="flex items-center space-x-2 glass-button px-3 py-2 rounded-lg">
-                      <Activity className="h-3 w-3 text-blue-400" />
+                      <Activity className="h-3 w-3 text-slate-400" />
                       <span>Low Latency</span>
                     </div>
                     <div className="flex items-center space-x-2 glass-button px-3 py-2 rounded-lg">
-                      <Zap className="h-3 w-3 text-cyan-400" />
-                      <span>GPU Accelerated</span>
+                      <Zap className="h-3 w-3 text-slate-400" />
+                      <span>GPU Ready</span>
                     </div>
                   </div>
                 </motion.div>
@@ -360,11 +354,11 @@ const Index = () => {
               initial={{ x: isMobile ? 100 : 320, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: isMobile ? 100 : 320, opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
               className={`${
                 isMobile 
-                  ? 'fixed inset-0 z-40 modal-overlay' 
-                  : 'w-80 glass-panel border-l border-slate-700/50'
+                  ? 'fixed inset-0 z-40 modal-overlay safe-left safe-right' 
+                  : 'w-80 glass-panel border-l border-slate-700/30'
               }`}
             >
               <SettingsPanel
@@ -374,7 +368,7 @@ const Index = () => {
               {isMobile && (
                 <button
                   onClick={() => setShowSettings(false)}
-                  className="absolute top-4 right-4 glass-button p-2 rounded-lg text-slate-400 hover:text-slate-200"
+                  className="absolute top-4 right-4 glass-button p-2 rounded-lg text-slate-400 hover:text-slate-300"
                 >
                   ✕
                 </button>
