@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Send, Loader2, Zap } from 'lucide-react';
+import { Send, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -41,46 +41,17 @@ export const PromptInput = ({ value, onChange, onGenerate, isGenerating }: Promp
   };
 
   return (
-    <div className="space-y-3 sm:space-y-4">
+    <div className="space-y-4">
       <div className="relative">
-        {/* Command Label */}
-        <motion.div
-          className="flex items-center space-x-2 mb-2 sm:mb-3"
-          initial={{ opacity: 0, x: -10 }}
-          animate={{ opacity: 1, x: 0 }}
-        >
-          <Zap className="h-3 w-3 sm:h-4 sm:w-4 text-[#00e0ff]" />
-          <span className="text-xs sm:text-sm font-mono text-[#c0e5ff] tracking-wider">
-            NEURAL COMMAND INPUT
-          </span>
-        </motion.div>
-
-        {/* Enhanced Textarea Container */}
-        <motion.div
-          className={`relative bg-[#0f0f0f] border-2 rounded-lg overflow-hidden transition-all duration-300 ${
-            isFocused 
-              ? 'border-[#00e0ff] shadow-lg shadow-[#00e0ff]/20' 
-              : 'border-[#1a1a1a]'
-          }`}
-          animate={isFocused ? { 
-            boxShadow: [
-              '0 0 20px rgba(0, 224, 255, 0.2)',
-              '0 0 30px rgba(0, 224, 255, 0.3)',
-              '0 0 20px rgba(0, 224, 255, 0.2)'
-            ]
-          } : {}}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          {/* Scanning line effect */}
-          {isFocused && (
-            <motion.div
-              className="absolute top-0 left-0 h-0.5 bg-gradient-to-r from-transparent via-[#00e0ff] to-transparent"
-              initial={{ width: '0%', x: '0%' }}
-              animate={{ width: '100%', x: '0%' }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-          )}
-
+        <label className="block text-sm font-medium text-gray-300 mb-2">
+          Prompt
+        </label>
+        
+        <div className={`relative bg-gray-900 border rounded-lg overflow-hidden transition-all duration-200 ${
+          isFocused 
+            ? 'border-blue-500 ring-1 ring-blue-500/20' 
+            : 'border-gray-700'
+        }`}>
           <Textarea
             ref={textareaRef}
             value={value}
@@ -88,104 +59,59 @@ export const PromptInput = ({ value, onChange, onGenerate, isGenerating }: Promp
             onKeyDown={handleKeyDown}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
-            placeholder="[ ENTER TACTICAL COMMAND PARAMETERS... ]"
-            className={`resize-none bg-transparent border-0 text-[#c9c9c9] placeholder:text-[#666] focus:ring-0 focus:border-0 leading-relaxed font-mono ${
+            placeholder="Enter your prompt here..."
+            className={`resize-none bg-transparent border-0 text-gray-200 placeholder:text-gray-500 focus:ring-0 focus:border-0 leading-relaxed ${
               isMobile 
                 ? 'min-h-[100px] max-h-[200px] text-base p-3' 
-                : 'min-h-[120px] max-h-[300px] text-lg p-4'
+                : 'min-h-[120px] max-h-[300px] text-sm p-4'
             }`}
             disabled={isGenerating}
           />
           
-          {/* Neural activity indicator */}
-          {value && (
-            <motion.div
-              className={`absolute flex items-center space-x-2 ${
-                isMobile ? 'bottom-2 left-2' : 'bottom-3 left-3'
-              }`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
-              <motion.div
-                className="w-2 h-2 rounded-full bg-[#00ff90]"
-                animate={{ 
-                  scale: [1, 1.2, 1],
-                  opacity: [0.5, 1, 0.5]
-                }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              />
-              <span className={`text-[#00ff90] font-mono ${isMobile ? 'text-xs' : 'text-xs'}`}>
-                NEURAL ACTIVE
-              </span>
-            </motion.div>
-          )}
-          
-          {/* Character Counter */}
-          <div className={`absolute text-[#666] font-mono ${
-            isMobile 
-              ? 'bottom-2 right-2 text-xs' 
-              : 'bottom-3 right-3 text-xs'
-          }`}>
-            [ {charCount} CHARS ]
+          <div className="absolute bottom-3 right-3 text-xs text-gray-500">
+            {charCount} characters
           </div>
-        </motion.div>
-      </div>
-
-      {/* Execute Button */}
-      <div className="flex justify-center">
-        <motion.div
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          <Button
-            onClick={onGenerate}
-            disabled={isGenerating || !value.trim()}
-            className={`bg-gradient-to-r from-[#3b82f6] to-[#00e0ff] hover:from-[#2563eb] hover:to-[#0ea5e9] text-black font-bold font-mono tracking-wider shadow-lg hover:shadow-xl border-0 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden ${
-              isMobile 
-                ? 'px-6 py-2 text-base' 
-                : 'px-8 py-3 text-lg'
-            }`}
-          >
-            {/* Button glow effect */}
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-[#3b82f6] to-[#00e0ff] opacity-0"
-              animate={!isGenerating && value.trim() ? { 
-                opacity: [0, 0.3, 0]
-              } : {}}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-            
-            <div className="relative z-10 flex items-center">
-              {isGenerating ? (
-                <>
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                    className="mr-2"
-                  >
-                    <Loader2 className={isMobile ? 'h-4 w-4' : 'h-5 w-5'} />
-                  </motion.div>
-                  {isMobile ? 'EXECUTING...' : 'EXECUTING...'}
-                </>
-              ) : (
-                <>
-                  <Send className={`${isMobile ? 'h-4 w-4' : 'h-5 w-5'} mr-2`} />
-                  {isMobile ? 'EXECUTE' : 'EXECUTE NEURAL COMMAND'}
-                </>
-              )}
-            </div>
-          </Button>
-        </motion.div>
-      </div>
-
-      {/* Mobile keyboard shortcut hint */}
-      {!isMobile && (
-        <div className="text-center">
-          <span className="text-xs text-[#666] font-mono">
-            [ ⌘ + ENTER TO EXECUTE ]
-          </span>
         </div>
-      )}
+      </div>
+
+      {/* Generate Button */}
+      <div className="flex justify-between items-center">
+        <div className="text-xs text-gray-500">
+          {!isMobile && (
+            <span>Press ⌘+Enter to generate</span>
+          )}
+        </div>
+        
+        <Button
+          onClick={onGenerate}
+          disabled={isGenerating || !value.trim()}
+          className={`bg-blue-600 hover:bg-blue-700 text-white border-0 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
+            isMobile 
+              ? 'px-6 py-2 text-sm' 
+              : 'px-8 py-2 text-sm'
+          }`}
+        >
+          <div className="flex items-center">
+            {isGenerating ? (
+              <>
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  className="mr-2"
+                >
+                  <Loader2 className={isMobile ? 'h-4 w-4' : 'h-4 w-4'} />
+                </motion.div>
+                Generating...
+              </>
+            ) : (
+              <>
+                <Send className={`${isMobile ? 'h-4 w-4' : 'h-4 w-4'} mr-2`} />
+                Generate
+              </>
+            )}
+          </div>
+        </Button>
+      </div>
     </div>
   );
 };

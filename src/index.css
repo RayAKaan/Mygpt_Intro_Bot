@@ -3,10 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import tactical fonts */
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
+/* Import professional fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-/* Sovereign Dark Theme System */
+/* Professional Dark Theme System */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -40,34 +40,33 @@
   }
 
   .dark {
-    /* Sovereign Dark - True Black System */
     --background: 0 0% 0%;
     --foreground: 0 0% 78.8%;
     --card: 0 0% 5.9%;
     --card-foreground: 0 0% 78.8%;
     --popover: 0 0% 5.9%;
     --popover-foreground: 0 0% 78.8%;
-    --primary: 195 100% 50%;
+    --primary: 217.2 91.2% 59.8%;
     --primary-foreground: 0 0% 0%;
     --secondary: 0 0% 10.2%;
     --secondary-foreground: 0 0% 78.8%;
     --muted: 0 0% 10.2%;
-    --muted-foreground: 0 0% 40%;
+    --muted-foreground: 0 0% 45%;
     --accent: 0 0% 10.2%;
     --accent-foreground: 0 0% 78.8%;
-    --destructive: 340 100% 50%;
+    --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 10.2%;
     --input: 0 0% 10.2%;
-    --ring: 195 100% 75.7%;
-    --sidebar-background: 0 0% 5.9%;
+    --ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 0 0% 3.9%;
     --sidebar-foreground: 0 0% 78.8%;
-    --sidebar-primary: 195 100% 50%;
+    --sidebar-primary: 217.2 91.2% 59.8%;
     --sidebar-primary-foreground: 0 0% 0%;
     --sidebar-accent: 0 0% 10.2%;
     --sidebar-accent-foreground: 0 0% 78.8%;
     --sidebar-border: 0 0% 10.2%;
-    --sidebar-ring: 195 100% 59.8%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -79,7 +78,7 @@
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', sans-serif;
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    overflow-x: hidden;
   }
 
   /* Prevent zoom on iOS Safari */
@@ -89,57 +88,13 @@
 
   @media (max-width: 768px) {
     input, textarea, select {
-      font-size: 16px; /* Maintain 16px minimum to prevent zoom */
+      font-size: 16px;
     }
   }
 
-  /* Tactical Font Classes */
-  .font-tactical-heading {
-    font-family: 'Orbitron', monospace;
-  }
-
-  .font-tactical-mono {
+  /* Code font */
+  .font-mono {
     font-family: 'JetBrains Mono', monospace;
-  }
-
-  /* Neural Glow Effects */
-  .neural-glow {
-    box-shadow: 0 0 20px rgba(0, 224, 255, 0.3);
-  }
-
-  .neural-glow-green {
-    box-shadow: 0 0 15px rgba(0, 255, 144, 0.4);
-  }
-
-  /* Ambient Background Gradients */
-  .bg-gradient-radial {
-    background: radial-gradient(circle, var(--tw-gradient-stops));
-  }
-
-  /* Terminal Cursor Animation */
-  .terminal-cursor {
-    animation: blink 1s infinite;
-  }
-
-  @keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
-  }
-
-  /* Tactical UI Animations */
-  .tactical-pulse {
-    animation: tactical-pulse 2s infinite;
-  }
-
-  @keyframes tactical-pulse {
-    0%, 100% {
-      opacity: 0.5;
-      box-shadow: 0 0 5px rgba(0, 224, 255, 0.3);
-    }
-    50% {
-      opacity: 1;
-      box-shadow: 0 0 20px rgba(0, 224, 255, 0.6);
-    }
   }
 
   /* Responsive typography */
@@ -149,7 +104,7 @@
     }
   }
 
-  /* Safe area for mobile devices with notches */
+  /* Safe area for mobile devices */
   @supports (padding: max(0px)) {
     .safe-area-top {
       padding-top: max(1rem, env(safe-area-inset-top));
@@ -168,7 +123,7 @@
     }
   }
 
-  /* Improved touch targets for mobile */
+  /* Touch targets for mobile */
   @media (max-width: 768px) {
     button, [role="button"] {
       min-height: 44px;
@@ -177,39 +132,39 @@
   }
 }
 
-/* Scrollbar Styling for Tactical Theme */
+/* Professional scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0f0f0f;
+  background: #1f2937;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1a1a1a;
-  border-radius: 4px;
+  background: #374151;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #00e0ff;
+  background: #4b5563;
 }
 
-/* Mobile-specific scrollbar */
+/* Mobile scrollbar */
 @media (max-width: 768px) {
   ::-webkit-scrollbar {
-    width: 4px;
+    width: 3px;
   }
 }
 
-/* Fix for mobile viewport height */
+/* Fix for mobile viewport */
 @supports (-webkit-touch-callout: none) {
   .min-h-screen {
     min-height: -webkit-fill-available;
   }
 }
 
-/* Prevent text selection on buttons and interactive elements */
+/* Clean up interactions */
 button, [role="button"] {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -217,17 +172,16 @@ button, [role="button"] {
   user-select: none;
 }
 
-/* Improve tap highlighting */
 * {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Ensure proper stacking context for overlays */
+/* Proper stacking */
 .fixed {
   z-index: 1000;
 }
 
-/* Prevent body scroll when modals are open on mobile */
+/* Modal overlay */
 .modal-open {
   overflow: hidden;
   position: fixed;
