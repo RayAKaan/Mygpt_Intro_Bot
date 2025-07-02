@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sun, Moon } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export const ThemeToggle = () => {
   const [isDark, setIsDark] = useState(true);
@@ -35,13 +36,27 @@ export const ThemeToggle = () => {
       variant="ghost"
       size="sm"
       onClick={toggleTheme}
-      className="p-2 rounded-md border border-gray-700 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-gray-200 transition-colors"
+      className="glass-button relative p-2.5 rounded-lg text-slate-400 hover:text-slate-200 transition-all duration-300"
     >
-      {isDark ? (
-        <Sun className="h-4 w-4" />
-      ) : (
-        <Moon className="h-4 w-4" />
-      )}
+      <motion.div
+        initial={false}
+        animate={{ rotate: isDark ? 0 : 180 }}
+        transition={{ duration: 0.3 }}
+        className="relative"
+      >
+        {isDark ? (
+          <Sun className="h-4 w-4" />
+        ) : (
+          <Moon className="h-4 w-4" />
+        )}
+      </motion.div>
+      
+      {/* Subtle glow effect */}
+      <motion.div
+        className="absolute inset-0 rounded-lg bg-gradient-to-r from-blue-500/10 to-cyan-500/10"
+        animate={{ opacity: isDark ? 0.5 : 0.3 }}
+        transition={{ duration: 0.3 }}
+      />
     </Button>
   );
 };

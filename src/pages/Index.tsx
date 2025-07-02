@@ -6,7 +6,7 @@ import { SettingsPanel } from '@/components/SettingsPanel';
 import { HistoryPanel } from '@/components/HistoryPanel';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useToast } from '@/hooks/use-toast';
-import { Settings, History, Cpu, Activity, Gauge } from 'lucide-react';
+import { Settings, History, Cpu, Activity, Zap, Signal } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -174,34 +174,42 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-gray-200">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100 tech-grid">
       {/* Header */}
-      <header className="border-b border-gray-800 bg-gray-900/50 backdrop-blur-sm">
-        <div className="flex items-center justify-between px-4 py-3">
-          <div className="flex items-center space-x-3">
-            <div className="flex items-center space-x-2">
-              <Cpu className="h-6 w-6 text-blue-400" />
+      <header className="border-b border-slate-700/50 glass-panel sticky top-0 z-50">
+        <div className="flex items-center justify-between px-4 lg:px-6 py-4">
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
+              <div className="relative">
+                <Cpu className="h-7 w-7 text-blue-400" />
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full status-online"></div>
+              </div>
               <div>
-                <h1 className="text-lg font-semibold text-gray-100">
-                  MiniGPT-MLOps
+                <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                  Neural Interface
                 </h1>
-                <p className="text-xs text-gray-400 hidden sm:block">
-                  Neural Language Generation
+                <p className="text-xs text-slate-400 hidden sm:block font-mono">
+                  Advanced Language Processing System
                 </p>
               </div>
             </div>
           </div>
           
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-3">
             {!isMobile && (
-              <div className="flex items-center space-x-4 text-xs text-gray-400 bg-gray-800/50 px-3 py-1 rounded-md">
-                <div className="flex items-center space-x-1">
-                  <Activity className="h-3 w-3" />
-                  <span>Online</span>
+              <div className="flex items-center space-x-4 text-xs text-slate-400 glass-button px-3 py-2 rounded-lg font-mono">
+                <div className="flex items-center space-x-2">
+                  <Signal className="h-3 w-3 text-emerald-400" />
+                  <span>ONLINE</span>
                 </div>
-                <div className="flex items-center space-x-1">
-                  <Gauge className="h-3 w-3" />
-                  <span>212ms</span>
+                <div className="w-px h-4 bg-slate-600"></div>
+                <div className="flex items-center space-x-2">
+                  <Activity className="h-3 w-3 text-blue-400" />
+                  <span>142ms</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Zap className="h-3 w-3 text-cyan-400" />
+                  <span>GPU Ready</span>
                 </div>
               </div>
             )}
@@ -211,37 +219,43 @@ const Index = () => {
                 setShowHistory(!showHistory);
                 if (isMobile && !showHistory) setShowSettings(false);
               }}
-              className={`p-2 rounded-md border border-gray-700 bg-gray-800 hover:bg-gray-700 transition-colors ${showHistory ? 'bg-gray-700 text-blue-400' : 'text-gray-300'}`}
+              className={`glass-button p-2.5 rounded-lg transition-all duration-200 ${
+                showHistory ? 'neon-blue text-blue-400' : 'text-slate-400 hover:text-slate-200'
+              }`}
             >
               <History className="h-4 w-4" />
             </button>
+            
             <button
               onClick={() => {
                 setShowSettings(!showSettings);
                 if (isMobile && !showSettings) setShowHistory(false);
               }}
-              className={`p-2 rounded-md border border-gray-700 bg-gray-800 hover:bg-gray-700 transition-colors ${showSettings ? 'bg-gray-700 text-blue-400' : 'text-gray-300'}`}
+              className={`glass-button p-2.5 rounded-lg transition-all duration-200 ${
+                showSettings ? 'neon-blue text-blue-400' : 'text-slate-400 hover:text-slate-200'
+              }`}
             >
               <Settings className="h-4 w-4" />
             </button>
+            
             <ThemeToggle />
           </div>
         </div>
       </header>
 
-      <div className="flex h-[calc(100vh-73px)]">
+      <div className="flex h-[calc(100vh-81px)]">
         {/* History Panel */}
         <AnimatePresence>
           {showHistory && (
             <motion.div
-              initial={{ x: isMobile ? 0 : -320, opacity: 0 }}
+              initial={{ x: isMobile ? -100 : -320, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
-              exit={{ x: isMobile ? 0 : -320, opacity: 0 }}
+              exit={{ x: isMobile ? -100 : -320, opacity: 0 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
               className={`${
                 isMobile 
-                  ? 'fixed inset-0 z-40 bg-black/95 backdrop-blur-sm' 
-                  : 'w-80 border-r border-gray-800 bg-gray-900/30 backdrop-blur-sm'
+                  ? 'fixed inset-0 z-40 modal-overlay' 
+                  : 'w-80 glass-panel border-r border-slate-700/50'
               }`}
             >
               <HistoryPanel
@@ -252,7 +266,7 @@ const Index = () => {
               {isMobile && (
                 <button
                   onClick={() => setShowHistory(false)}
-                  className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-200"
+                  className="absolute top-4 right-4 glass-button p-2 rounded-lg text-slate-400 hover:text-slate-200"
                 >
                   ✕
                 </button>
@@ -263,39 +277,77 @@ const Index = () => {
 
         {/* Main Content */}
         <div className="flex-1 flex flex-col min-w-0">
-          <div className="flex-1 p-4 sm:p-6 space-y-6 overflow-auto">
-            <div className="max-w-4xl mx-auto space-y-6">
+          <div className="flex-1 p-4 lg:p-8 space-y-8 overflow-auto">
+            <div className="max-w-4xl mx-auto space-section">
               {/* Prompt Input */}
-              <PromptInput
-                value={prompt}
-                onChange={setPrompt}
-                onGenerate={handleGenerate}
-                isGenerating={isGenerating}
-              />
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                <PromptInput
+                  value={prompt}
+                  onChange={setPrompt}
+                  onGenerate={handleGenerate}
+                  isGenerating={isGenerating}
+                />
+              </motion.div>
 
               {/* Output */}
               {(currentResponse || isGenerating) && (
-                <OutputBox
-                  content={currentResponse}
-                  isGenerating={isGenerating}
-                  inferenceTime={chatHistory[0]?.inferenceTime}
-                  tokensUsed={chatHistory[0]?.tokensUsed}
-                />
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                >
+                  <OutputBox
+                    content={currentResponse}
+                    isGenerating={isGenerating}
+                    inferenceTime={chatHistory[0]?.inferenceTime}
+                    tokensUsed={chatHistory[0]?.tokensUsed}
+                  />
+                </motion.div>
               )}
 
               {/* Welcome State */}
               {!currentResponse && !isGenerating && (
-                <div className="text-center py-12 space-y-4">
-                  <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 flex items-center justify-center mb-6">
-                    <Cpu className="h-8 w-8 text-blue-400" />
+                <motion.div
+                  initial={{ y: 40, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className="text-center py-16 space-y-6"
+                >
+                  <div className="relative">
+                    <div className="w-20 h-20 mx-auto rounded-2xl glass-panel flex items-center justify-center mb-8 pulse-glow">
+                      <Cpu className="h-10 w-10 text-blue-400" />
+                    </div>
+                    <div className="absolute inset-0 w-20 h-20 mx-auto rounded-2xl shimmer"></div>
                   </div>
-                  <h2 className="text-xl font-medium text-gray-100">
-                    Neural Interface Ready
-                  </h2>
-                  <p className="text-gray-400 max-w-md mx-auto text-sm">
-                    Enter your prompt above to begin text generation. Configure model parameters using the settings panel for customized output.
-                  </p>
-                </div>
+                  
+                  <div className="space-y-4">
+                    <h2 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                      Neural Interface Ready
+                    </h2>
+                    <p className="text-slate-400 max-w-md mx-auto text-sm lg:text-base leading-relaxed">
+                      Advanced language processing system initialized. Configure parameters and begin interaction.
+                    </p>
+                  </div>
+                  
+                  <div className="flex flex-wrap justify-center gap-4 text-xs text-slate-500 font-mono">
+                    <div className="flex items-center space-x-2 glass-button px-3 py-2 rounded-lg">
+                      <div className="w-2 h-2 bg-emerald-400 rounded-full status-online"></div>
+                      <span>System Ready</span>
+                    </div>
+                    <div className="flex items-center space-x-2 glass-button px-3 py-2 rounded-lg">
+                      <Activity className="h-3 w-3 text-blue-400" />
+                      <span>Low Latency</span>
+                    </div>
+                    <div className="flex items-center space-x-2 glass-button px-3 py-2 rounded-lg">
+                      <Zap className="h-3 w-3 text-cyan-400" />
+                      <span>GPU Accelerated</span>
+                    </div>
+                  </div>
+                </motion.div>
               )}
             </div>
           </div>
@@ -305,14 +357,14 @@ const Index = () => {
         <AnimatePresence>
           {showSettings && (
             <motion.div
-              initial={{ x: isMobile ? 0 : 320, opacity: 0 }}
+              initial={{ x: isMobile ? 100 : 320, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
-              exit={{ x: isMobile ? 0 : 320, opacity: 0 }}
+              exit={{ x: isMobile ? 100 : 320, opacity: 0 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
               className={`${
                 isMobile 
-                  ? 'fixed inset-0 z-40 bg-black/95 backdrop-blur-sm' 
-                  : 'w-80 border-l border-gray-800 bg-gray-900/30 backdrop-blur-sm'
+                  ? 'fixed inset-0 z-40 modal-overlay' 
+                  : 'w-80 glass-panel border-l border-slate-700/50'
               }`}
             >
               <SettingsPanel
@@ -322,7 +374,7 @@ const Index = () => {
               {isMobile && (
                 <button
                   onClick={() => setShowSettings(false)}
-                  className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-200"
+                  className="absolute top-4 right-4 glass-button p-2 rounded-lg text-slate-400 hover:text-slate-200"
                 >
                   ✕
                 </button>
